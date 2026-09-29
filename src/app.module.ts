@@ -7,6 +7,8 @@ import { OrdersModule } from './orders/orders.module';
 import { OrdersController } from './orders/orders.controller';
 import { OrdersService } from './orders/orders.service';
 import {MongooseModule} from "@nestjs/mongoose";
+import { AddressModule } from './address/address.module';
+import { ProductModule } from './product/product.module';
 @Module({
   imports: [UsersModule, OrdersModule,ConfigModule.forRoot({
       isGlobal: true,
@@ -18,7 +20,11 @@ import {MongooseModule} from "@nestjs/mongoose";
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_URI'),
       }),
-    })],
+    }),
+
+    AddressModule,
+
+    ProductModule],
   controllers: [AppController, OrdersController],
   providers: [AppService, OrdersService],
 })

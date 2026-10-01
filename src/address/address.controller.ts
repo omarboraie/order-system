@@ -7,8 +7,8 @@ import { CreateUserDto } from 'src/users/dto/CreateUser.dto';
 export class AddressController {
     constructor(private readonly addressService: AddressService ,) {}
 
-        @Post()
-        @UsePipes(new ValidationPipe())
+    @Post()
+    @UsePipes(new ValidationPipe())
         createAddress(@Body() AddressDto: AddressDto) {
             const user = this.addressService.createAddress(AddressDto);
             return user;

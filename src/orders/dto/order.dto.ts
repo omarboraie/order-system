@@ -1,16 +1,13 @@
-import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber , IsString, Min} from "class-validator";
+import { ArrayMinSize, IsArray, IsMongoId, IsNotEmpty, IsNumber , IsString, Min} from "class-validator";
+import { Address } from "src/schemas/Address.schema";
 
 export class orderDto{
-
-    @IsNotEmpty()
-    @IsString()
-    username!:string
-
+    
     @IsNotEmpty()
     @IsArray()
     @ArrayMinSize(1)
     products!:string[]
 
     @IsNotEmpty()
-    address!:string;
+    address!:Address;
 }

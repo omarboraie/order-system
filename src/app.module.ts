@@ -7,6 +7,7 @@ import { OrdersModule } from './orders/orders.module';
 import {MongooseModule} from "@nestjs/mongoose";
 import { AddressModule } from './address/address.module';
 import { ProductModule } from './product/product.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [UsersModule, OrdersModule,ConfigModule.forRoot({
       isGlobal: true,
@@ -22,7 +23,8 @@ import { ProductModule } from './product/product.module';
     UsersModule,
     OrdersModule,
     AddressModule,
-    ProductModule,],
+    ProductModule,
+    AuthModule,],
   controllers: [AppController,],
   providers: [AppService,],
 })

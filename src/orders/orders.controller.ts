@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { orderDto } from './dto/order.dto';
 import {updateOrderDto} from './dto/updateOrder.dto'
 import { OrdersService } from './orders.service';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('orders')
 export class OrdersController {
@@ -13,6 +15,7 @@ export class OrdersController {
         return newOrder;
     }
 
+    @UseGuards(JwtAuthGuard,AdminGuard)
     @Get()
     async getAllOrders(){
         const allOrders = await this.OrdersService.getAll();
@@ -31,18 +34,9 @@ export class OrdersController {
         return order;
     }
     
-@Patch(':username/:id')
-async updateOrder(
-  @Param('id') _id: string,
-  @Param('username') username: string,
-  @Body() updateOrderDto: updateOrderDto,
-) {
-  const updatedOrder = await this.OrdersService.updateOrder(
-    _id,
-    updateOrderDto,
-    username,
-  );
-
-  return updatedOrder;
+    @Patch(':username/:id')
+    async updateOrder( @Param('id') _id: string, @Param('username') username: string, @Body() updateOrderDto: updateOrderDto) {
+    const updatedOrder = await this.OrdersService.updateOrder(_id, updateOrderDto, username);
+    return updatedOrder;
 }
 }

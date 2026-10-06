@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,11 +8,11 @@ import {MongooseModule} from "@nestjs/mongoose";
 import { AddressModule } from './address/address.module';
 import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
+import { LoggerMiddleware } from './logger/logger.middleware';
 @Module({
   imports: [UsersModule, OrdersModule,ConfigModule.forRoot({
       isGlobal: true,
     }),
-
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -28,4 +28,10 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController,],
   providers: [AppService,],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('orders');
+  }
+}
